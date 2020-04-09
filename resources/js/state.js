@@ -9,6 +9,9 @@ export default {
             this.data.cart.push({
                 id: recipe.id,
                 name: recipe.name,
+                item1: recipe.item1,
+                item2: recipe.item2,
+                item3: recipe.item3,
                 price: recipe.price,
                 image: recipe.image,
                 qty: 1,

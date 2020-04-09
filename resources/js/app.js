@@ -6,16 +6,40 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
 
-import Vue from 'vue'
+
+window.Vue = require('vue');
 import axios from 'axios'
+import VueRouter from "vue-router";
 import AddOrders from "./components/AddOrders";
+if (window.Vue) {
+  window.Vue.use(VueRouter);
+}
+
+
+// Vue.component(
+//     "test",
+//     require("./components/Test.vue").default
+// );
+Vue.component(
+    "cart",
+    require("./components/OrderList.vue").default
+);
+
+const router = new VueRouter({
+    mode: "history",
+    routes: [{
+            path: "/pos",
+            component: AddOrders
+        }
+    ]
+});
+
+
+
 
 
 const pos = new Vue({
     el: '#pos',
-    components: {
-        AddOrders
-    }
+    router
 });

@@ -23,6 +23,7 @@ Route::get('/home', function () {
 
 
  Route::get('/get_recipes', 'InfoController@getRecipes')->middleware('auth');
+ Route::post('/recipe_order', 'InfoController@recipeOrder')->middleware('auth');
  Route::get('/pos', 'InfoController@index')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function() {

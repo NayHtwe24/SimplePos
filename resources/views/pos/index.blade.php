@@ -2,6 +2,7 @@
 
 @section('content')
 
-  <add-orders></add-orders>
+  <router-view :key="$route.fullPath"></router-view>
+  
 
 @endsection

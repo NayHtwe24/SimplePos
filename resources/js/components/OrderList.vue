@@ -1,30 +1,40 @@
 <template>
     <div class = "cart">
-        <p class="cart-title">Order list Data</p>
+        <p class="cart-title">Order list</p>
         <p class="cart-empty" v-if="total == 0">Your order is Empty!</p>
         <div class="items" v-else>
             <div class="box" v-for="item in items">
-                <img :src="'http://pos.f5cafe.net/storage/' + item.image" class="rounded mx-auto d-block item-image">
                 <div style="font-size:14px" class="item-details">
                     {{ item.name }}<br>
+                    <span v-if="item.item1">{{ item.item1 }}<br /></span>
+                    <span v-if="item.item2">{{ item.item2 }}<br /></span>
+                    <span v-if="item.item3">{{ item.item3 }}<br /></span>
                     <a href="#" class="badge badge-secondary">x{{ item.qty }}</a> {{ item.qty * item.price }}ks
-                </div>
-            </div>
+                    <br><hr>
+                </div><br><br><br>
+            </div><br>
         </div>
-        <div class="text-center">
-            <p>
-                <strong>{{ total_before }}</strong>
-            </p>
-            <p>
-              <strong>Discount :</strong>  <input type="number"  name="discount" value='0' style="text-align: center;" v-model="discount"  @blur="editBill">
-            </p>
+        <div class="cart-total">
+          <span>Discount</span>
+          <input type="number"  name="discount" value='0' style="text-align: center;" v-model="discount">
+          <br>
+          <br>
+          <a class="btn btn-primary right" @click="editBill"><i class="fa fa-check" aria-hidden="true">confirm</i></a>
+        </div>
+        <div class="cart-total">
+            <span>Discount</span>
+            <span class="right">{{ discount }}ks</span>
         </div>
         <div class="cart-total">
             <span>Total</span>
-            <span class="right">{{ final_total }}</span>
+            <span class="right">{{ total }}ks</span>
+        </div>
+        <div class="cart-total">
+            <span>Final Price</span>
+            <span class="right">{{ final_total }}ks</span>
         </div>
         <div>
-            <button class="btn btn-success" btn-sm @click="order()">Order</button>
+            <button class="btn btn-success" btn-sm @click="order()">Paid</button>
         </div>
 
     </div>
@@ -40,21 +50,18 @@
             return {
                 items: State.data.cart,
                 discount:0,
-                final_total:0,
-                total_before: 0
-
+                final_total: 0
             }
         },
         methods:{
             order() {
-                axios.post("recipe_order/",{ orderlists: this.items , table_id: this.table_id, total: this.final_total}).
+                axios.post("recipe_order",{ orderlists: this.items ,discount: this.discount,before_total: this.total,final_total: this.final_total}).
                 then(({ data }) => (
-
-                    console.log(data)
+                    console.log(data),
+                    location.reload()
                 ));
             },
             editBill(){
-              console.log("Hi");
                 this.final_total = (parseInt(this.total) - parseInt(this.discount))
             }
         },
